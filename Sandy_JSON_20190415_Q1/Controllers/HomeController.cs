@@ -3,10 +3,7 @@ using Sandy_JSON_20190415_Q1.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Text;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 
 namespace Sandy_JSON_20190415_Q1.Controllers
 {
@@ -30,25 +27,30 @@ namespace Sandy_JSON_20190415_Q1.Controllers
                     if (decimal.TryParse(item.Price, out decimal number))
                     {
                         float price = Convert.ToSingle(item.Price);
-                        if (item.Locale == "US" || item.Locale == "CA")
-                        {
-                            item.Price = price.ToString().Replace(".00", "");
-                            item.Price = item.Price.Replace(price.ToString(),string.Format("${0:N}", price));
-
+                        if (item.Locale == "US" )
+                        {                          
+                            item.Price = string.Format(new CultureInfo("en-US"), "{0:c}", price);
                         }
+                        else if (item.Locale == "CA")
+                        {                          
+                            item.Price = string.Format(new CultureInfo("en-CA"), "{0:c}", price);
+                        }                  
                         else if (item.Locale == "JP")
                         {
-                   
-                            item.Price = price.ToString().Replace(".00", "");
-                            item.Price = item.Price.Replace(price.ToString(), string.Format("¥{0:0,0}", Math.Round(price)));
-                          
+                            item.Price = string.Format(new CultureInfo("ja-JP"), "{0:c}", price);
                         }
-                        else if (item.Locale == "DE" || item.Locale == "ES" || item.Locale == "FR")
+                        else if (item.Locale == "ES")
+                        {                     
+                            item.Price = string.Format(new CultureInfo("es-ES"), "{0:c}", price);
+                        }
+                        else if (item.Locale == "DE")
                         {
-                            item.Price = price.ToString().Replace(".00", "");
-                            item.Price = item.Price.Replace(price.ToString(), string.Format("€{0:N0}", price));
-
-                        }                        
+                            item.Price = string.Format(new CultureInfo("de-DE"), "{0:c}", price);
+                        }
+                        else if (item.Locale == "FR")
+                        {
+                            item.Price = string.Format(new CultureInfo("fr-FR"), "{0:c}", price);
+                        }
                     }
                     else
                     {
@@ -69,23 +71,29 @@ namespace Sandy_JSON_20190415_Q1.Controllers
                     {
                         float promtePrice = Convert.ToSingle(item.Promote_Price);
                      
-                        if (item.Locale == "US" || item.Locale == "CA")
+                        if (item.Locale == "US")
                         {
-                            item.Promote_Price = promtePrice.ToString().Replace(".00", "");
-                            item.Promote_Price = item.Promote_Price.Replace(promtePrice.ToString(), string.Format("${0:N}", promtePrice));
-
+                            item.Promote_Price = string.Format(new CultureInfo("en-US"), "{0:c}", promtePrice);
+                        }
+                        else if (item.Locale == "CA")
+                        {
+                            item.Promote_Price = string.Format(new CultureInfo("en-CA"), "{0:c}", promtePrice);
                         }
                         else if (item.Locale == "JP")
                         {
-                            item.Promote_Price = promtePrice.ToString().Replace(".00", "");
-                            item.Promote_Price = item.Promote_Price.Replace(promtePrice.ToString(), string.Format("¥{0:N0}", promtePrice));
-
+                            item.Promote_Price = string.Format(new CultureInfo("ja-JP"), "{0:c}", promtePrice);
                         }
-                        else if (item.Locale == "DE" || item.Locale == "ES" || item.Locale == "FR")
+                        else if (item.Locale == "ES")
                         {
-                            item.Promote_Price = promtePrice.ToString().Replace(".00", "");
-                            item.Promote_Price = item.Promote_Price.Replace(promtePrice.ToString(), string.Format("€{0:N0}", promtePrice));
-
+                            item.Promote_Price = string.Format(new CultureInfo("es-ES"), "{0:c}", promtePrice);
+                        }
+                        else if (item.Locale == "DE")
+                        {
+                            item.Promote_Price = string.Format(new CultureInfo("de-DE"), "{0:c}", promtePrice);
+                        }
+                        else if (item.Locale == "FR")
+                        {
+                            item.Promote_Price=string.Format(new CultureInfo("fr-FR"), "{0:c}", promtePrice);
                         }
                     }
                     else { item.Promote_Price = item.Promote_Price.Replace(item.Promote_Price, "-"); }
