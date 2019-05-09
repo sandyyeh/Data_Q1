@@ -17,9 +17,9 @@ namespace Sandy_JSON_20190415_Q1.Controllers
             string json = System.IO.File.ReadAllText(file);
 
           
-            List<ViewModel> _list = JsonConvert.DeserializeObject<List<ViewModel>>(json);
+            List<ViewModel> list = JsonConvert.DeserializeObject<List<ViewModel>>(json);
   
-            foreach (var item in _list)
+            foreach (var item in list)
             {
               
                 if (!string.IsNullOrEmpty(item.Price))
@@ -103,7 +103,7 @@ namespace Sandy_JSON_20190415_Q1.Controllers
             }
 
 
-                return View(_list);
+                return View(list);
         }
           
     }
